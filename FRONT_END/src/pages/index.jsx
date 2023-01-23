@@ -39,21 +39,11 @@ export { default as AddGarantieGab } from './GarantieGab/AddGarantieGab';
 export { default as EditGarantieGab } from './GarantieGab/EditGarantieGab';
 export { default as DetailGarantieGab } from './GarantieGab/DetailGarantieGab';
 
-//Livraison
-export { default as ListLivraison} from './Livraison/ListLivraison';
-export { default as AddLivraison } from './Livraison/AddLivraison';
-export { default as EditLivraison } from './Livraison/EditLivraison';
-export { default as DetailLivraison } from './Livraison/DetailLivraison';
-
-//SERVICE
-export { default as ListService} from './Service/ListService';
-
-//VILLE
-export { default as ListVille} from './Ville/ListVille';
-
-//FAMILLE
-export { default as ListFamille} from './Famille/ListFamille';
-export { default as DetailFamille} from './Famille/DetailFamille';
+//Vehicule
+export { default as ListVehicule} from './Vehicule/ListVehicule';
+export { default as AddVehicule } from './Vehicule/AddVehicule';
+export { default as EditVehicule } from './Vehicule/EditVehicule';
+export { default as DetailVehicule } from './Vehicule/DetailVehicule';
 
 //UTILISATEUR
 export { default as ListUtilisateur} from './Utilisateur/ListUtilisateur';

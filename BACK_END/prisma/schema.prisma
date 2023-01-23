@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,44 +7,45 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Cars{
-  IdVehicule Int @id @default (autoincrement())
-  Matricule String @unique
-  Marque String
-  Version String
-  EtatVehicule Categorie
-  PoidsVehicule Int
-  PoidsColis Int
-  Amorcage Int
-  DateArriveeAuPort DateTime
+model cars {
+  IdVehicule        Int               @id @default(autoincrement())
+  Matricule         String            @unique(map: "Cars_Matricule_key")
+  Marque            String
+  Version           String
+  EtatVehicule      cars_EtatVehicule
+  PoidsVehicule     Decimal           @db.Decimal(10, 2)
+  PoidsColis        Decimal           @db.Decimal(10, 2)
+  Amorcage          Decimal           @db.Decimal(10, 2)
+  DateArriveeAuPort DateTime          @db.Date
 }
 
-enum Categorie {
+model client {
+  IdClient       Int    @id @default(autoincrement())
+  NomClient      String
+  PrenomsClient  String
+  UsernameClient String @unique(map: "Client_UsernameClient_key")
+  PwdClient      String
+  EmailClient    String
+}
+
+model cota {
+  RefCota Int @id @default(autoincrement())
+}
+
+model utilisateur {
+  id       Int     @id @default(autoincrement())
+  nom      String  @db.VarChar(100)
+  pseudo   String  @db.VarChar(50)
+  email    String  @unique(map: "email") @db.VarChar(50)
+  tel      String? @db.VarChar(10)
+  password String  @db.VarChar(255)
+  is_admin Boolean @default(false)
+}
+
+enum cars_EtatVehicule {
   NEUVE
   OCCASION
   CAMION
   ENGIN
   REMORQUE
-}
-
-model Client{
-  IdClient Int @id @default (autoincrement())
-  NomClient String
-  PrenomsClient String
-  UsernameClient String @unique
-  PwdClient String
-  EmailClient String
-}
-
-model Admin{
-  IdAdmin Int @id @default (autoincrement())
-  NomAdmin String
-  PrenomsAdmin String
-  UsernameAdmin String @unique
-  PwdAdmin String
-  EmailAdmin String
-}
-
-model Cota{
-  RefCota Int @id @default (autoincrement())
 }

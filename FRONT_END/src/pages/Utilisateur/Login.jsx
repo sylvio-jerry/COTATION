@@ -22,8 +22,8 @@ function Copyright(props) {
     return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="https://www.birger.technology/">
-        @BIRGER
+      <Link color="inherit" href="https://smmc-company.com/">
+        @SMMC PORT TOAMASINA
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -88,7 +88,7 @@ export default function SignIn() {
           </Link>{' '} 
           <div className='mt-5'>
             <Typography component="h3" variant="h5">
-              CONTRAT DE MAINTENANCE
+              COTATION DE MANUTENTION DES MARCHANDISES CONVENTIONNELLES
             </Typography>
           </div>
          
@@ -128,7 +128,7 @@ export default function SignIn() {
             <Grid container>
               <Grid item>
                 <div className='text-gray-500 sm'>
-                Mot de passe oublié ? Veuillez contacter votre administrateur
+                Mot de passe oublié ?
                 </div>
               </Grid>
             </Grid>

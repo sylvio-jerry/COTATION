@@ -78,7 +78,7 @@ const Navbar = () => {
           >
             <PersonPinIcon fontSize='medium' />
             <p>
-              <span className="text-black text-14">| {currentUser.is_admin ? "Admin" : "Super Admin"} |</span>{' '}
+              <span className="text-black text-14">| {currentUser.is_admin ? "Admin" : "Client"} |</span>{' '}
               <span className="text-black font-bold ml-1 text-14">
               {currentUser?.pseudo}
               </span>

@@ -1,1 +1,1 @@
-export const super_admin_only = "Vous n'êtes pas autorisé à utiliser cette action"
+export const admin_only = "Vous n'êtes pas autorisé à utiliser cette action"

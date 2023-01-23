@@ -271,7 +271,6 @@ const GarantieGabFilter = ({exportPdf,exportExcel,filterOption,filterData}) => {
               <Box >
                 <FormControl style={formStyle}>
                   <DatePicker label="DATE FIN" defaultValue={filter.date_fin_installation} getDate={handleChangeDateFin}/>
-                  {/* <DatePicker label="DATE FIN" views={['year']} defaultValue={filter.date_fin_installation} getDate={handleChangeDateFin}/> */}
                 </FormControl>
               </Box>
             </div>

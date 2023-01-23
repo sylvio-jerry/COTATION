@@ -24,14 +24,10 @@ import {
   AddGarantieGab,
   EditGarantieGab,
   DetailGarantieGab,
-  ListLivraison,
-  ListVille,
-  AddLivraison,
-  EditLivraison,
-  DetailLivraison,
-  ListService,
-  ListFamille,
-  DetailFamille,
+  ListVehicule,
+  DetailVehicule,
+  AddVehicule,
+  EditVehicule,
   ListUtilisateur,
   Login,
   Home,Histogramme } from './pages';
@@ -84,11 +80,11 @@ const App = () => {
                  {/* ACCUEIL */}
                 <Route path="/accueil" element={(<Home />)} />
 
-                {/* LIVRAISON */}
-                <Route path="/livraison" element={<ListLivraison />} />
-                <Route path="/livraison/edit/:id" element={<EditLivraison />} />
-                <Route path="/livraison/detail/:id" element={<DetailLivraison />} />
-                <Route path="/livraison/ajout" element={<AddLivraison />} />
+                {/* VEHICULE */}
+                <Route path="/vehicule" element={<ListVehicule />} />
+                <Route path="/vehicule/edit/:id" element={<EditVehicule />} />
+                <Route path="/vehicule/detail/:id" element={<DetailVehicule />} />
+                <Route path="/vehicule/ajout" element={<AddVehicule />} />
 
                 {/* CONTRAT DE MAINTENANCE */}
                 <Route path="/contrat_de_maintenance" element={<ListMaintenance />} />
@@ -113,16 +109,7 @@ const App = () => {
                 <Route path="/equipement/edit/:id" element={<EditEquipement />} />
                 <Route path="/equipement/detail/:id" element={<DetailEquipement />} />
                 <Route path="/equipement/ajout" element={<AddEquipement />} />
-
-                {/* SERVICE*/}
-                <Route path="/service" element={<ListService />} />
-
-                {/* VILLE */}
-                <Route path="/ville" element={<ListVille />} />
-
-                {/* FAMILLE*/}
-                <Route path="/famille" element={<ListFamille />} />
-                <Route path="/famille/detail/:id" element={<DetailFamille />} />
+                
 
                 {/* UTILISATEUR*/}
                 <Route path="/utilisateur" element={<ListUtilisateur />} />

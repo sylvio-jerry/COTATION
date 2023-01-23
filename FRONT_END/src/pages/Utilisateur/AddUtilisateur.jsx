@@ -39,9 +39,7 @@ const AddUtilisateur = ({openModal,closeModal,refresh})=> {
     email:'',
     pseudo: '',
     tel: '',
-    image_path: '',
-    is_admin: true,
-    is_envoie_rappel: false
+    is_admin: true
   })
 
   const defaultError = ()=>({
@@ -54,10 +52,6 @@ const AddUtilisateur = ({openModal,closeModal,refresh})=> {
 
   const [user, setUser] = useState(defaultUser())
   const [error,setError]=useState(defaultError())
-
-  // const handleChangeFile= (event) => {
-  //   console.log("file changed", event);
-  // };
 
   const handleChange= (event) => {
     setUser({...user,[event.target.name]:event.target.value});
@@ -72,8 +66,6 @@ const AddUtilisateur = ({openModal,closeModal,refresh})=> {
             pseudo: user.pseudo,
             email: user.email,
             tel: (user.tel==="") ? null : user.tel,
-            image_path: (user.image_path==="") ? null : user.image_path ,
-            is_envoie_rappel: (user.is_envoie_rappel==="true" || user.is_envoie_rappel===true ) ? true : false,
             is_admin: (user.is_admin==="true" || user.is_admin===true) ? true : false,
           }
           const data_ = await axios.post(`${API_URL}/api/utilisateur`,newUser)
@@ -321,46 +313,11 @@ const AddUtilisateur = ({openModal,closeModal,refresh})=> {
                         onChange={handleChange}
                       >
                         <FormControlLabel value={true} control={<Radio />} label="Admin" />
-                        <FormControlLabel value={false} control={<Radio />} label="Super Admin" />
+                        <FormControlLabel value={false} control={<Radio />} label="Client" />
                       </RadioGroup>
                     </FormControl>
                   </div>
                 </div>
-                <div style={ficheItem}>
-                  <div style={{minWidth: "35ch", marginBottom:"15px"}}>
-                    <FormControl>
-                      <FormLabel id="demo-row-radio-buttons-group-label">ENVOIE MAIL DE RAPPEL DE CONTRAT</FormLabel>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="is_envoie_rappel"
-                        value={user.is_envoie_rappel}
-                        onChange={handleChange}
-                      >
-                        <FormControlLabel value={true} control={<Radio />} label="OUI" />
-                        <FormControlLabel value={false} control={<Radio />} label="NON" />
-                      </RadioGroup>
-                    </FormControl>
-                  </div>
-                </div>
-                {/* <div style={ficheItem}>
-                  <Box
-                    component="form"
-                    sx={{
-                      '& > :not(style)': { m: 2, minWidth: "35ch" },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                  >
-                  <div>
-                    <IconButton color="disabled" component="label">
-                      <input type="file" accept="image/*" hidden />
-                      <PhotoCameraIcon fontSize="medium" color="disabled"/>
-                      Image
-                    </IconButton>
-                  </div>
-                  </Box>
-                </div> */}
               </div>
             </ThemeProvider>
         </DialogContent>
@@ -368,7 +325,7 @@ const AddUtilisateur = ({openModal,closeModal,refresh})=> {
           {/* <Button onClick={onClose}>FEMER</Button> */}
           <div style={action}>
             <div style={actionItem}>
-              <ButtonComponent color='error' function={skip} name_of_btn="ANNULER" icon={<CloseIcon />} />
+              <ButtonComponent color='error' function={skip} name_of_btn="RETOUR" icon={<CloseIcon />} />
             </div>
             <div style={actionItem}>
               <ButtonComponent color='root' function={add} name_of_btn="ENREGISTRER" icon={<SaveIcon />} />

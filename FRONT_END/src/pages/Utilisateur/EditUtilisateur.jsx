@@ -11,8 +11,6 @@ import globalStyle from '../../Style/globalStyle';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Typography , RadioGroup,Radio ,TextField,Box,FormControl, FormControlLabel,FormLabel} from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
-// import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
-// import { IconButton } from '@mui/material';
 
 var moment = require('moment');
 moment.locale('fr')
@@ -39,9 +37,7 @@ const EditUtilisateur = ({openModal,closeModal,data,refresh})=> {
     email:'',
     pseudo: '',
     tel: '',
-    image_path: '',
-    is_admin: false,
-    is_envoie_rappel: false
+    is_admin: false
   })
 
   const defaultError = ()=>({
@@ -50,8 +46,6 @@ const EditUtilisateur = ({openModal,closeModal,data,refresh})=> {
     pseudo: null,
     tel: null
   })
-
-
 
   const [user, setUser] = useState(defaultUser())
   const [error,setError]=useState(defaultError())
@@ -72,9 +66,7 @@ const EditUtilisateur = ({openModal,closeModal,data,refresh})=> {
           email:data?.email,
           pseudo: data?.pseudo,
           tel: data?.tel,
-          image_path: data?.image_path,
           is_admin: data?.is_admin,
-          is_envoie_rappel: data?.is_envoie_rappel
         }
         setUser(user_)
       }
@@ -89,10 +81,6 @@ const EditUtilisateur = ({openModal,closeModal,data,refresh})=> {
             pseudo: user.pseudo,
             email: user.email,
             tel: (user.tel==="") ? null : user.tel,
-            image_path: (user.image_path==="") ? null : user.image_path ,
-            // is_envoie_rappel: user.is_envoie_rappel,
-            // is_admin: user.is_admin
-            is_envoie_rappel: (user.is_envoie_rappel==="true" || user.is_envoie_rappel===true ) ? true : false,
             is_admin: (user.is_admin==="true" || user.is_admin===true) ? true : false,
           }
           const data_ = await axios.put(`${API_URL}/api/utilisateur/${user.id}`,updatedUser)
@@ -340,46 +328,11 @@ const EditUtilisateur = ({openModal,closeModal,data,refresh})=> {
                         onChange={handleChange}
                       >
                         <FormControlLabel value={true} control={<Radio />} label="Admin" />
-                        <FormControlLabel value={false} control={<Radio />} label="Super Admin" />
+                        <FormControlLabel value={false} control={<Radio />} label="Client" />
                       </RadioGroup>
                     </FormControl>
                   </div>
                 </div>
-                <div style={ficheItem}>
-                  <div style={{minWidth: "35ch", marginBottom:"15px"}}>
-                    <FormControl>
-                      <FormLabel id="demo-row-radio-buttons-group-label">ENVOIE MAIL DE RAPPEL DE CONTRAT</FormLabel>
-                      <RadioGroup
-                        row
-                        aria-labelledby="demo-row-radio-buttons-group-label"
-                        name="is_envoie_rappel"
-                        value={user.is_envoie_rappel}
-                        onChange={handleChange}
-                      >
-                        <FormControlLabel value={true} control={<Radio />} label="OUI" />
-                        <FormControlLabel value={false} control={<Radio />} label="NON" />
-                      </RadioGroup>
-                    </FormControl>
-                  </div>
-                </div>
-                {/* <div style={ficheItem}>
-                  <Box
-                    component="form"
-                    sx={{
-                      '& > :not(style)': { m: 2, minWidth: "35ch" },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                  >
-                  <div>
-                    <IconButton color="disabled" component="label">
-                      <input type="file" accept="image/*" hidden />
-                      <PhotoCameraIcon fontSize="medium" color="disabled"/>
-                      Image
-                    </IconButton>
-                  </div>
-                  </Box>
-                </div> */}
               </div>
             </ThemeProvider>
         </DialogContent>
@@ -387,7 +340,7 @@ const EditUtilisateur = ({openModal,closeModal,data,refresh})=> {
           {/* <Button onClick={onClose}>FEMER</Button> */}
           <div style={action}>
             <div style={actionItem}>
-              <ButtonComponent color='error' function={skip} name_of_btn="ANNULER" icon={<CloseIcon />} />
+              <ButtonComponent color='error' function={skip} name_of_btn="RETOUR" icon={<CloseIcon />} />
             </div>
             <div style={actionItem}>
               <ButtonComponent color='root' function={edit} name_of_btn="ENREGISTRER" icon={<SaveIcon />} />

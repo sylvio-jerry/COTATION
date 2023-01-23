@@ -10,7 +10,7 @@ import { DataGrid , GridToolbarContainer , GridToolbarQuickFilter} from '@mui/x-
 import Box from '@mui/material/Box';
 import { IconButton,Stack } from '@mui/material';
 import { useStateContext } from '../../contexts/ContextProvider';
-import { super_admin_only } from '../../data/constant';
+import { admin_only } from '../../data/constant';
 
 const API_URL = process.env.REACT_APP_API_URL || "http://172.16.11.55:3001/"
 
@@ -39,16 +39,17 @@ const ListUtilisateur = () => {
   }
 
   const addUtilisateur_ = ()=>{
-    if(currentUser.is_admin){
-      AlertToast("info",super_admin_only)
+    if(!currentUser.is_admin){
+      AlertToast("info",admin_only)
     }else{
       setShowAddUtilisateur(!showAddUtilisateur)
     }
   }
 
   const deleteUtilisateur = async ({id})=>{
-    if(currentUser.is_admin){
-      AlertToast("info",super_admin_only)
+
+    if(!currentUser.is_admin){
+      AlertToast("info",admin_only)
     }else{
       AlertConfirm("warning","Suppression").then(async (res)=>{
        if(res.isConfirmed){
@@ -75,8 +76,8 @@ const ListUtilisateur = () => {
   }
 
   const editUtilisateur = (data)=>{
-    if(currentUser.is_admin){
-      AlertToast("info",super_admin_only)
+    if(!currentUser.is_admin){
+      AlertToast("info",admin_only)
     }else{
       setEditData(data)
       setShowEditUtilisateur(!showEditUtilisateur)
@@ -111,13 +112,8 @@ const ListUtilisateur = () => {
     }
 
     const getRole = (params)=>{
-      let role = params?.row?.is_admin ? "Admin" : "Super Admin"
+      let role = params?.row?.is_admin ? "Admin" : "Client"
       return role;
-    }
-
-    const getIsSendingMailContrat = (params)=>{
-      let is_envoie_mail = params?.row?.is_envoie_rappel ? "OUI" : "NON"
-      return is_envoie_mail;
     }
 
     const columns = [
@@ -162,16 +158,6 @@ const ListUtilisateur = () => {
         headerAlign: "center",
         align: "center",
         valueGetter: getRole
-      },
-      {
-        field: 'is_envoie_rappel',
-        headerName: 'ENVOIE MAIL',
-        minWidth: 90,
-        flex: 1,
-        editable: false,
-        headerAlign: "center",
-        align: "center",
-        valueGetter: getIsSendingMailContrat
       },
       {
         field: 'ACTION',

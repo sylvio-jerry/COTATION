@@ -3,7 +3,7 @@ var express = require('express');
 const app = require('../app');
 var router = express.Router();
 
-const clientamroute = require ('./client_controller')
+const clientamroute = require ('../controller/clientController')
 /* POST home page. */
 router.post('/create', clientamroute.createClient );
 router.get('/findAll', clientamroute.findAllClient );

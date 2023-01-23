@@ -12,6 +12,7 @@ import ControlCameraOutlinedIcon from '@mui/icons-material/ControlCameraOutlined
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
+//accueil , vehicule /
 export const links = [
     {
       title: 'ACCUEIL',
@@ -23,59 +24,23 @@ export const links = [
         },
       ],
     },
-  
     {
       title: 'Pages',
       links: [
         {
-          name: 'contrat de maintenance',
+          name: 'vehicule',
           icon: <HandshakeOutlinedIcon />,
-          path: 'contrat_de_maintenance'
+          path: 'vehicule'
         },
         {
-          name: 'contrat de garantie',
+          name: 'tarif de manutention',
           icon: <DocumentScannerIcon />,
-          path: 'contrat_de_garantie'
-        },
-        {
-          name: 'maintenance GAB',
-          icon: <ControlCameraOutlinedIcon />,
-          path: 'contrat_de_maintenance_gab'
-        },
-        {
-          name: 'garantie GAB',
-          icon: <ViewInArIcon />,
-          path: 'contrat_de_garantie_gab'
-        },
-        {
-          name: 'livraison',
-          icon: <ShoppingCartOutlinedIcon />,
-          path: 'livraison'
-        },
-        {
-          name: 'equipement',
-          icon: <HubOutlinedIcon />,
-          path: 'equipement',
+          path: 'tarif_de_manutention'
         },
         {
           name: 'client',
           icon: <Diversity3Icon />,
           path: 'client',
-        },
-        {
-          name: 'ville',
-          icon: <FmdGoodIcon />,
-          path: 'ville',
-        },
-        {
-          name: 'service',
-          icon: <KeyboardCommandKeyOutlinedIcon />,
-          path: 'service',
-        },
-        {
-          name: 'famille',
-          icon: <LanOutlinedIcon />,
-          path: 'famille',
         },
         {
           name: 'utilisateur',
@@ -90,7 +55,7 @@ export const links = [
         {
           name: 'histogramme',
           icon: <InsertChartOutlinedIcon />,
-          path: 'histogramme',
+          path: 'histogramme'
         }
       ],
     }

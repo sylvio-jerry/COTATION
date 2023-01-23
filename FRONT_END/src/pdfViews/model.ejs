@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <title></title> -->
+    <!-- <link rel="stylesheet" href="./main.css"> -->
+    <style>
+        * {
+    /* Change your font family */
+    font-family: sans-serif;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: black;
+}
+
+.right{
+    text-align: end;
+}
+
+.left{
+    font-weight: bold;
+    font-size: 20px;
+}
+.content-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+}
+
+.content-table thead tr {
+    background-color: #0aa4dc;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.content-table th,
+.content-table td {
+    padding: 12px 15px;
+}
+
+.content-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+    color: black;
+}
+
+.content-table tbody tr:last-of-type {
+    border-bottom: 2px solid  #0aa4dc;
+}
+
+/* .content-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+} */
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="left">
+            <h1>SMMC COTATION</h1>
+        </div>
+        <div class="right">
+            <h3>INFO FACTURE ESTIMATIVE</h3>
+            <p>Date de consultation : <%= moment().format('LLLL'); %></p>
+        </div>
+    </div>
+    <br><br>
+    <div class="container">
+        <br><br>
+        <div class="">
+            <table class="content-table">
+                <thead>
+                    <tr>
+                        <th>DESIGNATION PRESTATION </th>
+                        <th>UNITE</th>
+                        <th>PU</th>
+                        <th>EN</th>
+                        <th>QT</th>
+                        <th>MAJ</th>
+                        <th>MONTANT</th>
+                      </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <td>DEBARQUEMENT VEH</td>
+                      <td>NB</td>
+                      <td>{cotation?.PU_debarquement}</td>
+                      <td>EURO</td>
+                      <td>{cotation?.Qt_debarquement}</td>
+                      <td>{cotation?.Amorcage}</td>
+                      <td>{cotation?.Montant_debarquement?.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                      <td>VISITE DES DOUANES AVEC M.O / VEH UTILITAIRE</td>
+                      <td>NB</td>
+                      <td>{cotation?.PU_visite_douane}</td>
+                      <td>EURO</td>
+                      <td>{cotation?.Qt_visite_douane}</td>
+                      <td>{cotation?.Amorcage}</td>
+                      <td>{cotation?.Montant_visite_douane?.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                      <td>ASSISTANCE AU CIVIO</td>
+                      <td>NB</td>
+                      <td>{cotation?.PU_assistance_civio}</td>
+                      <td>EURO</td>
+                      <td>{cotation?.Qt_assistance_civio}</td>
+                      <td>{cotation?.Amorcage}</td>
+                      <td>{cotation?.Montant_assistance_civio?.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                      <td>CESSION IMPRIMEES(BON D' ENLEVEMENT)</td>
+                      <td>NB</td>
+                      <td>{cotation?.PU_cession}</td>
+                      <td>EURO</td>
+                      <td>{cotation?.Qt_cession}</td>
+                      <td>{cotation?.Amorcage}</td>
+                      <td>{cotation?.Montant_cession?.toFixed(2)}</td>
+                    </tr>
+                    <tr>
+                      <td>DEBARQUEMENT MARCH SOUS AUTRES CONDIT</td>
+                      <td>M3.T</td>
+                      <td>{cotation?.PU_march_sous_condit}</td>
+                      <td>EURO</td>
+                      <td>{cotation?.Qt_march_sous_condit}</td>
+                      <td>{cotation?.Amorcage}</td>
+                      <td>{cotation?.Montant_march_sous_condit?.toFixed(2)}</td>
+                    </tr>
+                  </tbody>
+            </table>
+        </div>
+        <br><br> 
+    </div>
+</body>
+</html>

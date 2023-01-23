@@ -1,0 +1,48 @@
+# router.get("/findAll", voiture.findAllVoiture);
+# router.post("/create", voiture.createVoiture);
+# router.get("/findOne/:idvehicule", voiture.findOneVoiture);
+# router.get("/find/:etatvehicule", voiture.findNeuveVoiture);
+# router.post("/updateVoiture", voiture.updateVoiture);
+# router.delete("/deleteVoiture/:IdVehicule", voiture.deleteVoiture);
+
+
+###
+GET http://localhost:5000/api/car/findAll
+
+
+###
+GET http://localhost:5000/api/car/findOne/15
+
+
+###
+POST http://localhost:5000/api/car/create
+Content-Type: application/json
+
+{
+    "Matricule": "test5260",
+    "Marque": "Ta677",
+    "Version": "tmv52",
+    "EtatVehicule": "NEUVE",
+    "PoidsVehicule": 35.6,
+    "PoidsColis": 58.4,
+    "Amorcage" : 4.5,
+    "DateArriveeAuPort": "2023-02-06"
+}
+
+###
+PUT http://localhost:5000/api/car/update/14
+Content-Type: application/json
+
+{
+    "Matricule": "XGGXF6",
+    "Marque": "Ta767",
+    "Version": "tmv52 u",
+    "EtatVehicule": "OCCASION",
+    "PoidsVehicule": 35.7,
+    "PoidsColis": 58.5,
+    "Amorcage" : 4.6,
+    "DateArriveeAuPort": "2022-02-07"
+}
+
+###
+DELETE http://localhost:5000/api/car/delete/14

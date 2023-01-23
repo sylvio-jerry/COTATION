@@ -1,0 +1,58 @@
+###
+GET http://localhost:5000/api/utilisateur
+
+
+###
+GET http://localhost:5000/api/utilisateur/6
+
+###
+GET http://localhost:5000/api/utilisateur/get_user_by_email
+Content-Type: application/json
+
+{
+    "email": "nabo.sylvio@gmail.com"
+}
+
+
+###
+POST http://localhost:5000/api/utilisateur
+Content-Type: application/json
+
+{
+    "nom": "sylvio",
+    "pseudo": "jerry",
+    "email": "nabo.sylvio@gmail.com",
+    "tel": "",
+    "is_admin": true
+}
+
+###
+PUT http://localhost:5000/api/utilisateur/6
+Content-Type: application/json
+
+{
+    "nom": "sylvio j",
+    "pseudo": "sco",
+    "email": "nabo.sylvio@gmail.com",
+    "tel": "0348596258",
+    "is_admin": true
+}
+
+###
+DELETE http://localhost:5000/api/utilisateur/6
+
+
+
+###login
+POST http://localhost:5000/api/utilisateur/login
+Content-Type: application/json
+
+{
+    "email": "rolio@gmail.com",
+    "password": "aBFcca93"
+}
+
+###forgot password
+
+###logout
+POST http://localhost:5000/api/utilisateur/logout
