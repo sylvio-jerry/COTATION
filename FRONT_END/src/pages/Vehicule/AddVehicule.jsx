@@ -2,7 +2,8 @@ import React, { useEffect,useState } from 'react';
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import { ButtonComponent, HeaderLabel, DatePicker,AlertToast} from '../../components';
-import { Box,TextField,FormControl,InputLabel,Select,MenuItem } from '@mui/material';
+// import { Box,TextField,FormControl,InputLabel,Select,MenuItem } from '@mui/material';
+import { Box,InputLabel,TextField,MenuItem,Select,FormLabel,FormControl,FormControlLabel,Radio,RadioGroup } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -22,11 +23,6 @@ moment.locale('fr');
 const AddVehicule = () => {
   let navigate = useNavigate();
   
-  useEffect(()=>{
-    // getClient()
-    // getEquipement()
-  },[])
-
   const defaultVehicule = ()=>(
     {
       Matricule: '',
@@ -39,6 +35,8 @@ const AddVehicule = () => {
       dateArriveeAuPort: null,
     }
   )
+
+
 
   const defaultError = ()=>({
     Matricule: null,
@@ -54,6 +52,7 @@ const AddVehicule = () => {
   const [vehicule, setVehicule] = useState(defaultVehicule());
   const [showVerify, setShowVerify] = useState(false);
   const [error,setError]=useState(defaultError())
+  const [isNotify,setIsNotify]=useState(true)
 
   //'NEUVE','OCCASION','CAMION','ENGIN','REMORQUE'
   const EtatVehiculeData = [
@@ -65,11 +64,8 @@ const AddVehicule = () => {
   ]
 
     const add = async()=>{
-      console.log("vehicule test +++",vehicule);
-      console.log("vehicule AAA +++",+vehicule.PoidsVehicule);
-      console.log("vehicule AAA +++",typeof +vehicule.PoidsVehicule);
 
-      if(vehicule.Matricule.trim() !=='' && vehicule.Marque.trim() !=='' && vehicule.Version.trim() !==''  && vehicule.PoidsVehicule.trim() !== ''  && vehicule.Amorcage.trim() !==''  && vehicule.PoidsColis.trim() !== '' && vehicule.dateArriveeAuPort !== null && vehicule.EtatVehicule.trim() !=='' ){
+      if(vehicule.Matricule.trim() !=='' && vehicule.Marque.trim() !=='' && vehicule.Version.trim() !==''  && vehicule.PoidsVehicule.toString().trim() !== ''  && vehicule.Amorcage.toString().trim() !==''  && vehicule.PoidsColis.toString().trim() !== '' && vehicule.dateArriveeAuPort !== null && vehicule.EtatVehicule.trim() !=='' ){
         if(error.Matricule === null  && error.Marque === null  && error.Version === null   && error.EtatVehicule === null  && error.PoidsVehicule === null && error.PoidsColis === null && error.Amorcage === null){
           try {
             let newVehicule = vehicule
@@ -81,8 +77,11 @@ const AddVehicule = () => {
             newVehicule.EtatVehicule = newVehicule.EtatVehicule
             newVehicule.Amorcage = +newVehicule.Amorcage.trim()
             newVehicule.DateArriveeAuPort = moment(newVehicule.dateArriveeAuPort,'DD/MM/YYYY').format('YYYY-MM-DD')
+            newVehicule.isNotify = (isNotify==="true" || isNotify===true) ? true : false
 
-            // console.log('new Liv to send : ',newVehicule);
+            console.warn("++++++++++++++++++++++++",newVehicule);
+            console.warn("++++++++++++++++++++++++",typeof newVehicule.isNotify);
+
             const data_ = await axios.post(`${API_URL}/api/car/create`,newVehicule)
             let {status,message} = data_.data
             if(status==="success"){
@@ -106,10 +105,6 @@ const AddVehicule = () => {
       }
     }
 
-    // const add = ()=>{
-    //   console.log('clicked !!');
-    // }
-    
     const exit = ()=>{
       AlertToast("info","Operation annulé")
       navigate(-1)
@@ -130,6 +125,11 @@ const AddVehicule = () => {
   const handleChangeDateArrivee = (date) => {
     setVehicule({...vehicule,dateArriveeAuPort:date});
   };
+
+  const handleChangeNotify= (event) => {
+    console.log('changed notify',event);
+     setIsNotify(!isNotify);
+   };
 
   //handle error handler
   const verifyMatricule= () => {
@@ -398,6 +398,28 @@ const AddVehicule = () => {
                 variant="filled" required={true} name="Amorcage" value={vehicule.Amorcage} onChange={handleChange} placeholder="ex :  Amorcage" type="number" label="Amorcage"
                 />
               </Box>
+          </div>
+          <div>
+            <Box component="form"
+                  sx={{
+                    '& > :not(style)': { m: 2, minWidth: "35ch" , marginTop:3},
+                  }}
+                  noValidate
+                  autoComplete="off">
+              <FormControl>
+                <FormLabel id="demo-row-radio-buttons-group-label">NOTIFICATION EMAIL :</FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  value={isNotify}
+                  onChange={handleChangeNotify}
+                >
+                  <FormControlLabel value={true} control={<Radio />} label="Oui" />
+                  <FormControlLabel value={false} control={<Radio />} label="Non" />
+                </RadioGroup>
+              </FormControl>
+            </Box>
           </div>
         </div>
       </div>

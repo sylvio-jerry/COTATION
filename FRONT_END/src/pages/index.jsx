@@ -2,9 +2,7 @@ export { default as Home } from './Home';
 export { default as Histogramme } from './Histogramme/Histogramme';
 
 //client
-export { default as ListClient } from './Client/ListClient';
-export { default as AddClient } from './Client/AddClient';
-export { default as EditClient } from './Client/EditClient';
+export { default as Cotation } from './Cotation/Cotation';
 
 //equipement
 export { default as ListEquipement } from './Equipement/ListEquipement';

@@ -10,7 +10,7 @@ export { default as Pie } from './Charts/Pie';
 export { default as DatePicker } from './DatePicker';
 export { default as YearPicker } from './YearPicker';
 export { default as HeaderLabel } from './HeaderLabel';
-export { default as ClientFilter } from './Filter/ClientFilter';
+export { default as CotationForm } from './CotationForm';
 export { default as VilleFilter } from './Filter/VilleFilter';
 export { default as FamilleFilter } from './Filter/FamilleFilter';
 export { default as EquipementFilter } from './Filter/EquipementFilter';
