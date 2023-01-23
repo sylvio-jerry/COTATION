@@ -97,7 +97,7 @@ const EditVehicule = () => {
 
     const edit = async()=>{
 
-      if(vehicule.Matricule.trim() !=='' && vehicule.Marque.trim() !=='' && vehicule.Version.trim() !==''  && vehicule.PoidsVehicule.trim() !== ''  && vehicule.Amorcage.trim() !==''  && vehicule.PoidsColis.trim() !== '' && vehicule.dateArriveeAuPort !== null && vehicule.EtatVehicule.trim() !=='' ){
+      if(vehicule.Matricule.trim() !=='' && vehicule.Marque.trim() !=='' && vehicule.Version.trim() !==''  && vehicule.PoidsVehicule.toString().trim() !== ''  && vehicule.Amorcage.toString().trim() !==''  && vehicule.PoidsColis.toString().trim() !== '' && vehicule.dateArriveeAuPort !== null && vehicule.EtatVehicule.trim() !=='' ){
         if(error.Matricule === null  && error.Marque === null  && error.Version === null   && error.EtatVehicule === null  && error.PoidsVehicule === null && error.PoidsColis === null && error.Amorcage === null){
           try {
             let updatedCars = vehicule

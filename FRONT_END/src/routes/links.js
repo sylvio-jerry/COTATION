@@ -38,11 +38,6 @@ export const links = [
           path: 'tarif_de_manutention'
         },
         {
-          name: 'client',
-          icon: <Diversity3Icon />,
-          path: 'client',
-        },
-        {
           name: 'utilisateur',
           icon: <SensorOccupiedOutlinedIcon />,
           path: 'utilisateur',

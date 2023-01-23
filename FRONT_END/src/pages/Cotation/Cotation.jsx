@@ -1,9 +1,9 @@
 import React, { useEffect,useState, useRef  } from 'react';
 import axios from 'axios'
 import { useReactToPrint } from 'react-to-print';
-import ReactToPrint from 'react-to-print';
+// import ReactToPrint from 'react-to-print';
 import { useNavigate,useLocation,useParams } from "react-router-dom";
-import { ButtonComponent, HeaderLabel, DatePicker,ExportPdf} from '../../components';
+import { ButtonComponent, HeaderLabel, DatePicker,ExportPdf, CotationForm} from '../../components';
 import { Box,InputLabel,TextField,MenuItem,Select,FormControl } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import BackspaceIcon from '@mui/icons-material/Backspace';
@@ -22,13 +22,19 @@ var moment = require('moment');
 moment.locale('fr');
 const API_URL = process.env.REACT_APP_API_URL || "http://172.16.11.55:3001/"
 
-const DetailVehicule = () => {
+const Cotation = () => {
   let {id} = useParams()
-  let {state} = useLocation()
   let navigate = useNavigate();
 
   const classes = globalStyle()
   const componentRef = useRef();
+
+  const optionData = ()=>({
+    EtatVehicule: '',
+    PoidsVehicule: '',
+    PoidsColis: '',
+    Amorcage: ''
+})
 
     //lottie file
     const InfoComponent = ()=>{
@@ -48,23 +54,19 @@ const DetailVehicule = () => {
               </div>
     }
 
-  useEffect(()=>{
-    getCotation()
-  },[])
-
   const handlePdf = useReactToPrint({
     
     content: () => {
       let compare = '' 
-      if(state?.PoidsVehicule < 1){
+      if(option?.PoidsVehicule < 1){
         compare = 'INFERIEUR A 1 TONNE'
-      }else if(state?.PoidsVehicule <= 2){
+      }else if(option?.PoidsVehicule <= 2){
         compare = 'ENTRE 1 à 2 TONNES'
-      }else if(state?.PoidsVehicule <= 4){
+      }else if(option?.PoidsVehicule <= 4){
         compare = 'ENTRE 2 à 4 TONNES'
-      }else if(state?.PoidsVehicule <= 6){
+      }else if(option?.PoidsVehicule <= 6){
         compare = 'ENTRE 4 à 6 TONNES'
-      }else if(state?.PoidsVehicule <= 10){
+      }else if(option?.PoidsVehicule <= 10){
         compare = 'ENTRE 6 à 10 TONNES'
       }else{
         compare = 'SUPERIEUR A 10 TONNES'
@@ -81,8 +83,8 @@ const DetailVehicule = () => {
             <img src="${logo}" alt="" class="watermark" width="300px" height="300px"/>
           </div>
           <div> 
-            <p>DEBARQUEMENT DE 1 VEHICULE <strong>${state?.EtatVehicule}</strong> UTILITAIRE 
-             PESANT UN POIDS ${compare} AVEC UN COLIS DE ${state?.PoidsColis} TONNES.</p>
+            <p>DEBARQUEMENT DE 1 VEHICULE <strong>${option?.EtatVehicule}</strong> UTILITAIRE 
+             PESANT UN POIDS ${compare} AVEC UN COLIS DE ${option?.PoidsColis} TONNES.</p>
         </div>
       `;
 
@@ -93,6 +95,25 @@ const DetailVehicule = () => {
   });
 
   const [cotation,setCotation] = useState(null)
+  const [option,setOption] = useState(optionData)
+  const [showDetail,setShowDetail] = useState(false)
+
+  useEffect(()=>{
+    console.warn(' changedRender. . . ',option);
+    showDetail_()
+  },[option])
+
+  const showDetail_ = () =>{
+    if( option.PoidsVehicule.trim() !== ''  && option.Amorcage.trim() !==''  && option.PoidsColis.trim() !== '' && option.EtatVehicule.trim() !=='' ){
+      setShowDetail(true)
+    }
+  }
+
+  const getOption = (option_) =>{
+    setOption(option_)
+    getCotation()
+  }
+
 
     //CALCUL
     const getPuDebarquement = (poidsVehicule=0) =>{
@@ -136,15 +157,15 @@ const DetailVehicule = () => {
 
     const Generate_info_estimative = ()=>{
       let compare = '' 
-      if(state?.PoidsVehicule < 1){
+      if(option?.PoidsVehicule < 1){
         compare = 'INFERIEUR A 1 TONNE'
-      }else if(state?.PoidsVehicule <= 2){
+      }else if(option?.PoidsVehicule <= 2){
         compare = 'ENTRE 1 à 2 TONNES'
-      }else if(state?.PoidsVehicule <= 4){
+      }else if(option?.PoidsVehicule <= 4){
         compare = 'ENTRE 2 à 4 TONNES'
-      }else if(state?.PoidsVehicule <= 6){
+      }else if(option?.PoidsVehicule <= 6){
         compare = 'ENTRE 4 à 6 TONNES'
-      }else if(state?.PoidsVehicule <= 10){
+      }else if(option?.PoidsVehicule <= 10){
         compare = 'ENTRE 6 à 10 TONNES'
       }else{
         compare = 'SUPERIEUR A 10 TONNES'
@@ -152,8 +173,8 @@ const DetailVehicule = () => {
 
       return(
         <Typography variant="div">
-                  DEBARQUEMENT DE 1 VEHICULE <strong>{state?.EtatVehicule}</strong> UTILITAIRE 
-                  PESANT UN POIDS {compare} AVEC UN COLIS DE {state?.PoidsColis} TONNES et AVEC UN AMORCAGE DE {state?.Amorcage} %.
+                  DEBARQUEMENT DE 1 VEHICULE <strong>{option?.EtatVehicule}</strong> UTILITAIRE 
+                  PESANT UN POIDS {compare} AVEC UN COLIS DE {option?.PoidsColis} TONNES et AVEC UN AMORCAGE DE {option?.Amorcage} %.
         </Typography>
       )
     }
@@ -173,16 +194,16 @@ const DetailVehicule = () => {
     Qt_redevence= 1,
     Qt_droit_region= 1,
 
-    Amorcage = +state.Amorcage,
-    PU_debarquement= getPuDebarquement(+state.PoidsVehicule), // depends du poids de vehicule
-    PU_visite_douane= getPuVisteDouane(state.EtatVehicule), // si neuve : 0 , autres : 45
-    PU_assistance_civio= getPuAssistanceCivio(state.EtatVehicule),  // si neuve : 0 , autres : 12
-    Qt_march_sous_condit= +state.PoidsColis, //poids du colis
-    Qt_droit_port= +state.PoidsVehicule, // poids du vehicule
-    Qt_redevence_march= +state.PoidsColis,  //poids du colis
-    Qt_droit_region_march= +state.PoidsColis,  //poids du colis,
+    Amorcage = +option.Amorcage,
+    PU_debarquement= getPuDebarquement(+option.PoidsVehicule), // depends du poids de vehicule
+    PU_visite_douane= getPuVisteDouane(option.EtatVehicule), // si neuve : 0 , autres : 45
+    PU_assistance_civio= getPuAssistanceCivio(option.EtatVehicule),  // si neuve : 0 , autres : 12
+    Qt_march_sous_condit= +option.PoidsColis, //poids du colis
+    Qt_droit_port= +option.PoidsVehicule, // poids du vehicule
+    Qt_redevence_march= +option.PoidsColis,  //poids du colis
+    Qt_droit_region_march= +option.PoidsColis,  //poids du colis,
   
-    Montant_debarquement= (PU_debarquement * Qt_debarquement) * (1 + (+state.Amorcage/100)), // (PU_debarquement * Qt_debarquement) * (1 + (Amorcage/100))
+    Montant_debarquement= (PU_debarquement * Qt_debarquement) * (1 + (+option.Amorcage/100)), // (PU_debarquement * Qt_debarquement) * (1 + (Amorcage/100))
     Montant_visite_douane= PU_visite_douane * Qt_visite_douane, // PU_visite_douane * Qt_visite_douane
     Montant_assistance_civio= PU_assistance_civio * Qt_assistance_civio, // PU_assistance_civio * Qt_assistance_civio
     Montant_cession= PU_cession * Qt_cession, // PU_cession * Qt_cession
@@ -273,26 +294,22 @@ const DetailVehicule = () => {
 
   return (
     <div className={`m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl  ${classes.mainContainer}`} >
-      <div style={headerLabelContainer}>
-        <HeaderLabel title="COTATION DE MANUTENTION"/>
-      </div>
+      <CotationForm 
+        exportPdf={handlePdf}
+        option = {option}
+        getOption = {getOption}
+      />
       <div className={` ${classes.infoContainer}`}>
         <div className={` ${classes.infoContainerItem} ${classes.infoContainerItemLeft}`}>
           <div className={` ${classes.resumeContainer}`}>
             <div>
               <div className={` ${classes.headerRecap } `}>
-                <Typography variant="div"><strong>INFO FACTURE </strong></Typography>
+                <Typography variant="div"><strong>DETAIL </strong></Typography>
               </div>
-              <div className={` ${classes.resumeItem}`}>
-                <Typography variant="div"><strong>REFERENCE COTATION : {state?.Matricule} </strong></Typography>
+              <div className={` ${classes.resumeItem} mt-2`}>
+                <Typography variant="div"><strong>NOTE EXPLICATIVE : </strong></Typography>
+                {showDetail && <Generate_info_estimative/>}
               </div>
-              <div className={` ${classes.resumeItem}`}>
-                <Typography variant="div"><strong>NOTE EXPLICATIVE: </strong></Typography>
-                <Generate_info_estimative/>
-              </div>
-            </div>
-            <div className={` ${classes.resumeItem}`}>
-              <ExportPdf function={handlePdf}/>
             </div>
           </div>
         </div>
@@ -498,4 +515,4 @@ const DetailVehicule = () => {
 };
 
 
-export default DetailVehicule;
+export default Cotation;

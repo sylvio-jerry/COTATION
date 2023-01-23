@@ -138,7 +138,7 @@ const AddEquipement = () => {
     setEquipement({...equipement,famille:value});
   };
 
-  const handleChangeIsGaranted= (event) => {
+  const handleChangeIsGaranted = (event) => {
    if(event.target.value==="false"){
     setEquipement({...equipement,duree_garantie:12});
    }

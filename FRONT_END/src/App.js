@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import { Navbar, Sidebar } from './components';
 import { 
-  ListClient,AddClient,EditClient,
+  Cotation,
   ListEquipement,AddEquipement,EditEquipement,DetailEquipement,
   ListMaintenance,
   AddMaintenance,
@@ -87,22 +87,13 @@ const App = () => {
                 <Route path="/vehicule/ajout" element={<AddVehicule />} />
 
                 {/* CONTRAT DE MAINTENANCE */}
-                <Route path="/contrat_de_maintenance" element={<ListMaintenance />} />
-                <Route path="/contrat_de_maintenance/edit/:id" element={<EditMaintenance />} />
-                <Route path="/contrat_de_maintenance/detail/:id" element={<DetailMaintenance />} />
-                <Route path="/contrat_de_maintenance/ajout" element={<AddMaintenance />} />
-                <Route path="/contrat_de_maintenance/renew/:id" element={<RenewMaintenance />} />
+                <Route path="/tarif_de_manutention" element={<Cotation />} />
 
                 {/* CONTRAT DE GARANTIE */}
                 <Route path="/contrat_de_garantie" element={<ListGarantie />} />
                 <Route path="/contrat_de_garantie/edit/:id" element={<EditGarantie />} />
                 <Route path="/contrat_de_garantie/detail/:id" element={<DetailGarantie />} />
                 <Route path="/contrat_de_garantie/ajout" element={<AddGarantie />} />
-
-                {/* CLIENT*/}
-                <Route path="/client" element={<ListClient />} />
-                <Route path="/client/edit/:id" element={<EditClient />} />
-                <Route path="/client/ajout" element={<AddClient />} />
 
                 {/* EQUIPEMENT*/}
                 <Route path="/equipement" element={<ListEquipement />} />
@@ -136,7 +127,6 @@ const App = () => {
             </div>
           </div>
         </div>
-
       </BrowserRouter>
     </div>
   );

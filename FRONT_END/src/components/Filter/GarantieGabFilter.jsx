@@ -281,7 +281,7 @@ const GarantieGabFilter = ({exportPdf,exportExcel,filterOption,filterData}) => {
                 <FormControl style={formStyle}>
                     <div style={{display: "flex", justifyContent: "end"}}>
                       {/* <ExportPdf function={handlePdf}/> */}
-                      <ExportExcel function={handleExcel}/>
+                      {/* <ExportExcel function={handleExcel}/> */}
                   </div>
                 </FormControl>
               </Box>
