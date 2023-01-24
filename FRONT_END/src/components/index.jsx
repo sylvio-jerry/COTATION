@@ -17,7 +17,7 @@ export { default as EquipementFilter } from './Filter/EquipementFilter';
 export { default as ContratFilter } from './Filter/ContratFilter';
 export { default as GarantieGabFilter } from './Filter/GarantieGabFilter';
 export { default as MaintenanceGabFilter } from './Filter/MaintenanceGabFilter';
-export { default as LivraisonFilter } from './Filter/LivraisonFilter';
+export { default as VehiculeFilter } from './Filter/VehiculeFilter';
 export { default as ExportPdf } from './ExportPdf';
 export { default as ExportExcel } from './ExportExcel';
 export { default as ButtonComponent } from './ButtonComponent';

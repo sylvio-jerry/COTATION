@@ -13,7 +13,7 @@ const theme = createTheme({
     steelBlue: createColor('#5C76B7'),
     violet: createColor('#BC00A3'),
     vertBlue: createColor('#7fb6b9'),
-    root: createColor('#03C9D7')
+    root: createColor('#23AA66')
   },
 });
 

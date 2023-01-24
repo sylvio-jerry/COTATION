@@ -391,15 +391,15 @@ const Cotation = () => {
             <table className="w-2/6" align="right" id="tab2">
             <tr>
               <td className={` ${classes.tableContentThTd}`}>MONTANT HTVA</td>
-              <td className={` ${classes.tableContentThTd}`}>{cotation?.Montant_HTVA_1?.toFixed(2)}</td>
+              <td className={` ${classes.tableContentThTd}`}>{cotation?.Montant_HTVA_1?.toFixed(2)} €</td>
             </tr>
             <tr>
               <td className={` ${classes.tableContentThTd}`}>MONTANT TVA</td>
-              <td className={` ${classes.tableContentThTd}`}>{cotation?.Montant_TVA_1?.toFixed(2)}</td>
+              <td className={` ${classes.tableContentThTd}`}>{cotation?.Montant_TVA_1?.toFixed(2)} €</td>
             </tr>
             <tr>
               <td className={` ${classes.tableContentThTd}`}>NET A PAYER</td>
-              <td className={` ${classes.tableContentThTd}`}>{cotation?.NetApayer1?.toFixed(2)}</td>
+              <td className={` ${classes.tableContentThTd}`}><strong>{cotation?.NetApayer1?.toFixed(2)} €</strong></td>
             </tr>
             </table>
             <br />
@@ -472,15 +472,15 @@ const Cotation = () => {
             <table className="w-full" id="tab2">
               <tr>
                 <td className={` ${classes.tableContentThTd}`}>MONTANT HTVA</td>
-                <td className={` ${classes.tableContentThTd}`}>{cotation?.Montant_HTVA_2?.toFixed(2)}</td>
+                <td className={` ${classes.tableContentThTd}`}>{cotation?.Montant_HTVA_2?.toFixed(2)} €</td>
               </tr>
               <tr>
                 <td className={` ${classes.tableContentThTd}`}>MONTANT TVA</td>
-                <td className={` ${classes.tableContentThTd}`}>{cotation?.Montant_TVA_2?.toFixed(2)}</td>
+                <td className={` ${classes.tableContentThTd}`}>{cotation?.Montant_TVA_2?.toFixed(2)} €</td>
               </tr>
               <tr>
                 <td className={` ${classes.tableContentThTd}`}>NET A PAYER</td>
-                <td className={` ${classes.tableContentThTd}`}>{cotation?.NetApayer2?.toFixed(2)}</td>
+                <td className={` ${classes.tableContentThTd}`}><strong>{cotation?.NetApayer2?.toFixed(2)} €</strong></td>
               </tr>
             </table>
             <br />
@@ -489,15 +489,15 @@ const Cotation = () => {
             <table className="w-full" id="tab2">
               <tr>
                 <td className={` ${classes.tableContentThTd}`}>MONTANT TOTAL HTVA</td>
-                <td className={` ${classes.tableContentThTd}`}>{cotation?.Montant_HTVA?.toFixed(2)}</td>
+                <td className={` ${classes.tableContentThTd}`}>{cotation?.Montant_HTVA?.toFixed(2)} €</td>
               </tr>
               <tr>
                 <td className={` ${classes.tableContentThTd}`}>MONTANT TVA</td>
-                <td className={` ${classes.tableContentThTd}`}>{cotation?.Montant_TVA?.toFixed(2)}</td>
+                <td className={` ${classes.tableContentThTd}`}>{cotation?.Montant_TVA?.toFixed(2)} €</td>
               </tr>
               <tr>
-                <td className={` ${classes.tableContentThTd}`}>NET A PAYER</td>
-                <td className={` ${classes.tableContentThTd}`}>{cotation?.NetApayer?.toFixed(2)}</td>
+                <td className={` ${classes.tableContentThTd} bg-green-600`}><strong>NET A PAYER</strong></td>
+                <td className={` ${classes.tableContentThTd} bg-green-600`}><strong>{cotation?.NetApayer?.toFixed(2)} €</strong></td>
               </tr>
             </table>
             <br />

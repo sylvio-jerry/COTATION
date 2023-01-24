@@ -33,7 +33,7 @@ export const links = [
           path: 'vehicule'
         },
         {
-          name: 'tarif de manutention',
+          name: 'estimation du prix',
           icon: <DocumentScannerIcon />,
           path: 'tarif_de_manutention'
         },
@@ -48,9 +48,14 @@ export const links = [
       title: 'HISTOGRAMME',
       links: [
         {
-          name: 'histogramme',
+          name: 'circulaire',
           icon: <InsertChartOutlinedIcon />,
-          path: 'histogramme'
+          path: 'circulaire'
+        },
+        {
+          name: 'baton',
+          icon: <InsertChartOutlinedIcon />,
+          path: 'baton'
         }
       ],
     }

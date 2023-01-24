@@ -13,6 +13,8 @@ GET http://localhost:5000/api/car/findAll
 ###
 GET http://localhost:5000/api/car/findOne/15
 
+###
+GET http://localhost:5000/api/car/findStatut/12
 
 ###
 POST http://localhost:5000/api/car/create

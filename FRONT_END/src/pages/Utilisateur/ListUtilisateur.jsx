@@ -90,7 +90,7 @@ const ListUtilisateur = () => {
     border: 'none',
     "& .MuiDataGrid-main": { borderRadius: 2 },
     "& .MuiDataGrid-columnHeaders": {
-      backgroundColor: "#03C9D7",
+      backgroundColor: "#23AA66",
       color: "white",
       fontSize: 16,
     },

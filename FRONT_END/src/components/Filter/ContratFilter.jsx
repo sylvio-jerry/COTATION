@@ -36,7 +36,6 @@ const ContratFilter = ({exportPdf,exportExcel,filterOption,filterData}) => {
     filterOption(filter)
   },[filter])
   
-    
     useEffect(()=>{
       setFilter({...filter,famille:0})
       if(filter.service===0){

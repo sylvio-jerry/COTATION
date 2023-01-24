@@ -2,7 +2,8 @@ import React, { useEffect,useState } from 'react';
 import axios from 'axios'
 import { useLocation, useNavigate,useParams } from "react-router-dom";
 import { ButtonComponent, HeaderLabel, DatePicker,AlertToast} from '../../components';
-import { Box,TextField,FormControl,InputLabel,Select,MenuItem } from '@mui/material';
+// import { Box,TextField,FormControl,InputLabel,Select,MenuItem } from '@mui/material';
+import { Box,InputLabel,TextField,MenuItem,Select,FormLabel,FormControl,FormControlLabel,Radio,RadioGroup } from '@mui/material';
 import SaveIcon from '@mui/icons-material/Save';
 import BackspaceIcon from '@mui/icons-material/Backspace';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -37,6 +38,7 @@ const EditVehicule = () => {
       PoidsColis: '',
       Amorcage: '',
       dateArriveeAuPort: null,
+      isDisponible: true
     }
   )
 
@@ -91,6 +93,7 @@ const EditVehicule = () => {
       PoidsColis:cars_data.PoidsColis,
       Amorcage: cars_data.Amorcage,
       dateArriveeAuPort: date_format(cars_data.DateArriveeAuPort),
+      isDisponible: cars_data.isDisponible
     }
     setVehicule(car)
   }
@@ -109,11 +112,13 @@ const EditVehicule = () => {
             updatedCars.EtatVehicule = updatedCars.EtatVehicule
             updatedCars.Amorcage = +updatedCars.Amorcage.trim()
             updatedCars.DateArriveeAuPort = moment(updatedCars.dateArriveeAuPort,'DD/MM/YYYY').format('YYYY-MM-DD')
+            updatedCars.isDisponible = (updatedCars.isDisponible==="true" || updatedCars.isDisponible===true) ? true : false
 
             // console.log('new Liv to send : ',updatedCars);
             const data_ = await axios.put(`${API_URL}/api/car/update/${id}`,updatedCars)
             let {status,message} = data_.data
             if(status==="success"){
+              exit()
               AlertToast("success",message)
               setVehicule(defaultVehicule())
             }
@@ -138,10 +143,15 @@ const EditVehicule = () => {
     //   console.log('clicked !!');
     // }
     
-    const exit = ()=>{
+    const skip = ()=>{
       AlertToast("info","Operation annulé")
       navigate(-1)
     }
+  
+    const exit = ()=>{
+      navigate(-1)
+    }
+
 
     const verify = ()=>{
       setShowVerify(!showVerify)
@@ -158,6 +168,10 @@ const EditVehicule = () => {
   const handleChangeDateArrivee = (date) => {
     setVehicule({...vehicule,dateArriveeAuPort:date});
   };
+
+  const handleChangeIsDisponible= () => {
+    setVehicule({...vehicule,isDisponible:!vehicule.isDisponible});
+   };
 
   //handle error handler
   const verifyMatricule= () => {
@@ -368,9 +382,7 @@ const EditVehicule = () => {
                 </TextField>        
               </FormControl>
             </Box>
-          </div>            
-        </div>
-        <div style={formContainerItem}>
+          </div>    
           <div>
             <Box
               component="form"
@@ -386,7 +398,9 @@ const EditVehicule = () => {
                 onFocus={resetError}
                 variant="filled" required={true} name="PoidsVehicule" value={vehicule.PoidsVehicule} onChange={handleChange} placeholder="ex :  Poids du Vehicule" type="number" label="Poids du Véhicule" />
             </Box>
-          </div>
+          </div>        
+        </div>
+        <div style={formContainerItem}>
           <div>
            <Box
               component="form"
@@ -427,11 +441,33 @@ const EditVehicule = () => {
                 />
               </Box>
           </div>
+          <div>
+            <Box component="form"
+                  sx={{
+                    '& > :not(style)': { m: 2, minWidth: "35ch" , marginTop:2},
+                  }}
+                  noValidate
+                  autoComplete="off">
+              <FormControl>
+                <FormLabel id="demo-row-radio-buttons-group-label">DISPONIBLE:</FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  value={vehicule?.isDisponible}
+                  onChange={handleChangeIsDisponible}
+                >
+                  <FormControlLabel value={true} control={<Radio />} label="Oui" />
+                  <FormControlLabel value={false} control={<Radio />} label="Non" />
+                </RadioGroup>
+              </FormControl>
+            </Box>
+          </div>
         </div>
       </div>
       <div style={action}>
         <div style={actionItem}>
-          <ButtonComponent color='error' function={exit} name_of_btn="RETOUR" icon={<BackspaceIcon />} />
+          <ButtonComponent color='error' function={skip} name_of_btn="RETOUR" icon={<BackspaceIcon />} />
         </div>
         <div style={actionItem}>
           <ButtonComponent color='vertBlue' textColor="white" function={verify} name_of_btn="VOIR" icon={<VisibilityIcon />} />

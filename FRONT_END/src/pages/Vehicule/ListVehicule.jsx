@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import axios from 'axios'
-import { LivraisonFilter, ButtonComponent,AlertToast ,AlertConfirm,LoadingComponent  } from '../../components';
+import { VehiculeFilter, ButtonComponent,AlertToast ,AlertConfirm,LoadingComponent  } from '../../components';
 import {Accordion,AccordionSummary,AccordionDetails,Typography} from '@mui/material';
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -13,14 +13,15 @@ import { DataGrid , GridToolbarContainer, GridToolbarQuickFilter} from '@mui/x-d
 import Box from '@mui/material/Box';
 import { IconButton,Stack } from '@mui/material';
 import filterFunction from "../../filterFunction";
-import { exportExcelLivraison} from '../../export/exportExcel';
+import { useStateContext } from '../../contexts/ContextProvider';
+
 
 var moment = require('moment');
 moment.locale('fr');
 const API_URL = process.env.REACT_APP_API_URL || "http://172.16.11.55:3001/"
 
 const ListVehicule = () => {
-
+  const { currentUser } = useStateContext();
   const classes = globalStyle();
   const navigate = useNavigate()
 
@@ -29,13 +30,11 @@ const ListVehicule = () => {
   },[])
 
   const defaultFilter = ()=>({
-    province:0,
-    service:0,
-    famille:0,
-    garantie:0,
-    date_debut_livraison:moment().startOf('year'),
-    date_fin_livraison:moment().endOf('year'),
-})
+    etatVehicule: 0,
+    statut: 0,
+    date_debut_arrivee:moment().startOf('year'),
+    date_fin_arrivee:moment().endOf('year')
+  })
 
   const [filter, setFilter]= useState(defaultFilter())
   const [carsData,setcarsData] = useState([])
@@ -47,112 +46,54 @@ const ListVehicule = () => {
     getVehicule(filter);
   };
   
-  const getVehicule = async () => {
+  const getVehicule = async (filter) => {
+    if (!filter) {
+      filter = defaultFilter();
+    }
+
+    const handleEtatVehicule = (item) =>
+    !filter.etatVehicule || item?.EtatVehicule===filter.etatVehicule
+
+    const handleStatut= (item) => {
+      if (filter.statut == 0) return true;
+      if (filter.statut == 1) {
+        if (item.isDisponible) {
+          return true;
+        }
+        return false
+      }
+      if (filter.statut == 2) {
+        if (!item.isDisponible) {
+          return true;
+        }
+        return false
+      }
+    };
+
+    let isDateBefore = (dateBefore,dateAfter)=> moment(dateBefore).isSameOrBefore(moment(dateAfter),"day") ? true : false
+    let isDateAfter = (dateAfter,dateBefore)=> moment(dateAfter).isSameOrAfter(moment(dateBefore),"day") ? true : false
+    
+    const handleDate = (item) => {
+      let checkBefore = isDateBefore(moment(filter.date_debut_arrivee,'L').format('YYYY-MM-DD'),item?.DateArriveeAuPort)
+      let checkAfter = isDateAfter(moment(filter.date_fin_arrivee,'L').format('YYYY-MM-DD'),item?.DateArriveeAuPort)
+      return checkBefore && checkAfter
+    }
+
+    const checking = [handleEtatVehicule,handleStatut,handleDate];
+
     try {
       const {data} = await axios.get(`${API_URL}/api/car/findAll`)
-      console.warn("dataaaa:", data.data);
+      if (data.status==="success") {
+        const newArray = filterFunction(data.data, checking);
         setcarsData(data.data)
+        setcarsDataFiltered(newArray);
         setIsLoading(false)
-
-      // if (data.status==="success") {
-      //   const newArray = filterFunction(data.data, checking);
-      //   setcarsData(data.data)
-      //   setIsLoading(false)
-      //   setcarsDataFiltered(newArray);
-      // }
-
+      }
     } catch (error) {
       console.log("error while getVehiculeRequest:", error);
     }
-    
+
   };
-  // const getVehicule = async (filter) => {
-  //   if (!filter) {
-  //     filter = defaultFilter();
-  //   }
-
-  //   const handleProvince = (item) =>
-  //   !filter.province || item?.client?.ville?.province?.id===filter.province
-
-  //   const handleFamille= (item) => {
-  //     return !!item.equipement.find((equipement) => {
-  //       if (filter.famille === 0) return true;
-  //       if (equipement.famille.id === filter.famille) {
-  //         item.equipement =
-  //           item.equipement.filter(
-  //             (equip) => equip.famille.id === filter.famille
-  //           );
-  //         return true;
-  //       }
-  //       return false;
-  //     });
-  //   };
-
-  //   const handleService= (item) => {
-  //     return !!item.equipement.find((equipement) => {
-  //       if (filter.service === 0) return true;
-  //       if (equipement.famille.service_id === filter.service) {
-  //         item.equipement =
-  //           item.equipement.filter(
-  //             (equip) => equip.famille.service_id  === filter.service
-  //           );
-  //         return true;
-  //       }
-  //       return false;
-  //     });
-  //   };
-
-  //   const handleGarantie= (item) => {
-  //     return !!item.equipement.find((equipement) => {
-  //       if (filter.garantie === 0) return true;
-  //       if (filter.garantie === 1) {
-  //         if (equipement.duree_garantie !== null) {
-  //           item.equipement =
-  //           item.equipement.filter(
-  //             (equip) => equip.duree_garantie !== null
-  //           );
-  //           return true;
-  //         }
-  //         return false
-  //       }
-  //       if (filter.garantie === 2) {
-  //         if (equipement.duree_garantie === null) {
-  //           item.equipement =
-  //           item.equipement.filter(
-  //             (equip) => equip.duree_garantie === null
-  //           );
-  //           return true;
-  //         }
-  //         return false
-  //       }
-  //      return false;
-  //     });
-  //   };
-
-  //   let isDateBefore = (dateBefore,dateAfter)=> moment(dateBefore).isSameOrBefore(moment(dateAfter),"day") ? true : false
-  //   let isDateAfter = (dateAfter,dateBefore)=> moment(dateAfter).isSameOrAfter(moment(dateBefore),"day") ? true : false
-    
-  //   const handleDate = (item) => {
-  //     let checkBefore = isDateBefore(moment(filter.date_debut_livraison,'L').format('YYYY-MM-DD'),item?.date_livraison)
-  //     let checkAfter = isDateAfter(moment(filter.date_fin_livraison,'L').format('YYYY-MM-DD'),item?.date_livraison)
-  //     return checkBefore && checkAfter
-  //   }
-
-  //   const checking = [handleProvince,handleFamille,handleService,handleGarantie,handleDate];
-
-  //   try {
-  //     const {data} = await axios.get(`${API_URL}/vehicule`)
-  //     if (data.status==="success") {
-  //       const newArray = filterFunction(data.data, checking);
-  //       setcarsData(data.data)
-  //       setcarsDataFiltered(newArray);
-  //       setIsLoading(false)
-  //     }
-  //   } catch (error) {
-  //     console.log("error while getVehiculeRequest:", error);
-  //   }
-
-  // };
 
   const AddVehicule = ()=>{
     navigate('/vehicule/ajout');
@@ -195,7 +136,7 @@ const ListVehicule = () => {
     border: 'none',
     "& .MuiDataGrid-main": { borderRadius: 2 },
     "& .MuiDataGrid-columnHeaders": {
-      backgroundColor: "#03C9D7",
+      backgroundColor: "#23AA66",
       color: "white",
       fontSize: 16,
     },
@@ -216,24 +157,27 @@ const ListVehicule = () => {
   //table Vehicule
   const TableVehicule = ({data})=> {
 
-    // const TableContent = {
-    //   fontFamily: "Arial, Helvetica, sans-serif",
-    //   borderCollapse: "collapse",
-    //   width: "100%"
-    // }
-  
-    // const TableContentThTd = {
-    //   border: "1px solid #ddd",
-    //   padding: 8,
-    //   textAlign: "left",
-    // }
-
-
     function getDateArrivee(params) {
       // return ""
       const DateArriveeAuPort =  params.row.DateArriveeAuPort
       return date_format(DateArriveeAuPort);
     }
+
+    const RenderStatut = ({ data }) => {
+      let colorStatut = data.isDisponible ? "#006635" : "#992600"
+      let statut = data.isDisponible ? "Disponible" : "Non Disponible"
+      const statutStyle = {
+        color: colorStatut
+      };
+    
+      return (
+        <Box>
+            <Typography style={statutStyle}>
+               {statut}
+            </Typography>
+        </Box>
+      );
+    };
 
     const columns = [
       { field: 'IdVehicule', headerName: 'ID', minWidth: 100, flex: 1 , hide:true},
@@ -308,6 +252,13 @@ const ListVehicule = () => {
         valueGetter: getDateArrivee
       },
       {
+        field: "isDisponible",
+        headerName: "STATUT",
+        minWidth: 150,
+        flex: 1,
+        renderCell: (cellValue) => <RenderStatut data={cellValue.row} />
+      },
+      {
         field: 'ACTION',
         minWidth: 200,
         flex: 1,
@@ -332,16 +283,16 @@ const ListVehicule = () => {
                   <Info style={{width:40, height:50}} />
                 </IconButton>
             </Box>
-            <Box>
+           {currentUser.is_admin &&  <Box>
                 <IconButton onClick={ ()=> editVehicule(data)} >
                   <Edit style={{width:40, height:50}} fill="#5D6061" />
                 </IconButton>
-            </Box>
-            <Box>
-            <IconButton onClick={()=>deleteVehicule(data)} >
+            </Box>}
+            { currentUser.is_admin && <Box>
+              <IconButton onClick={()=>deleteVehicule(data)} >
                 <Delete style={{width:45, height:50}} fill="#C14949" />
               </IconButton>
-            </Box>
+            </Box>}
           </Box>
       )
     }
@@ -397,24 +348,18 @@ const ListVehicule = () => {
     // console.log("EXPORT PDF LISTENER inside the component ListVehicule : ");
   }
 
-  const handleExportExcel = ()=>{
-    // console.log("EXPORT EXCEL LISTENER inside the component ListVehicule : ");
-    exportExcelLivraison(carsDataFiltered,filter.date_debut_livraison,filter.date_fin_livraison)
-  }
-
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-      <LivraisonFilter 
+      <VehiculeFilter 
         filterOption={getListFiltered}
         filterData = {filter}
         exportPdf={handleExportPdf}
-        exportExcel={handleExportExcel}
       />
       <div style={{paddingTop:50}}>
         <ButtonComponent color='root' function={AddVehicule} name_of_btn="NOUVEAU" icon={<PersonAddAltIcon/>}/>
       </div>
       <div>
-        <TableVehicule data={carsData}/>
+        <TableVehicule data={carsDataFiltered}/>
       </div>
     </div>
   );

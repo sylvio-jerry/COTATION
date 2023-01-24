@@ -26,7 +26,7 @@ const Verify = ({openModal,closeModal,data})=> {
     closeModal(false);
   };
 
-  const [livraison]= useState(data)
+  const [vehicule]= useState(data)
   const classes = globalStyle()
   const theme = createTheme({
     typography: {
@@ -103,35 +103,38 @@ const Verify = ({openModal,closeModal,data})=> {
       >
         <DialogTitle id="scroll-dialog-title"> <HeaderLabel title="RECAPITULATIF"/></DialogTitle>
           <DialogContent
-          >
+          > {JSON.stringify(vehicule)}
             <ThemeProvider theme={theme}>
               <div style={ficheContainer}>
                 <div style={ficheItem}>
-                  <Typography variant="div"><strong>N° BON DE LIVRAISON : </strong>{livraison?.num_bon_livraison}</Typography>
+                  <Typography variant="div"><strong>N° MATRICULE: </strong>{vehicule.Matricule}</Typography>
                 </div>
                 <div style={ficheItem}>
-                  <Typography variant="div"><strong>N° FACTURE : </strong>{livraison?.num_facture}</Typography>
+                  <Typography variant="div"><strong>MARQUE: </strong>{vehicule?.Marque}</Typography>
                 </div>
                 <div style={ficheItem}>
-                  <Typography variant="div"><strong>DATE FACTURE : </strong>{livraison?.date_facture}</Typography>
+                  <Typography variant="div"><strong>VERSION: </strong>{vehicule?.Version}</Typography>
                 </div>
                 <div style={ficheItem}>
-                  <Typography variant="div"><strong>DATE LIVRAISON : </strong>{livraison?.date_livraison}</Typography>
+                  <Typography variant="div"><strong>ETAT VEHICULE: </strong>{vehicule?.EtatVehicule}</Typography>
                 </div>
                 <div style={ficheItem}>
-                  <Typography variant="div"><strong>CLIENT : </strong>{livraison?.client?.nom_client}</Typography>
+                  <Typography variant="div"><strong>POIDS COLIS : </strong>{vehicule?.PoidsColis}</Typography>
                 </div>
                 <div style={ficheItem}>
-                  <Typography variant="div"><strong>PROVINCE CLIENT : </strong>{livraison?.client?.ville?.province?.nom_province}</Typography>
+                  <Typography variant="div"><strong>DATE ARRIVE AU PORT : </strong>{vehicule.DateArriveeAuPort!==null && moment(vehicule?.DateArriveeAuPort).format('L')}</Typography>
                 </div>
                 <div style={ficheItem}>
-                  <Typography variant="div"><strong>VILLE CLIENT : </strong>{livraison?.client?.ville?.nom_ville}</Typography>
+                  <Typography variant="div"><strong>AMORCAGE : </strong>{vehicule?.Amorcage}</Typography>
                 </div>
                 <div style={ficheItem}>
-                  <Typography variant="div"><strong>ADRESSE CLIENT : </strong>{livraison?.client?.adresse}</Typography>
+                  <Typography variant="div"><strong>DISPONIBLE: </strong>{vehicule?.isDisponible ? 'DISPONIBLE' : 'NON DISPONABLE'}</Typography>
                 </div>
                 <div style={ficheItem}>
-                  <Typography variant="div" ><strong>EQUIPEMENT : Nombre ({livraison?.equipement?.length})</strong></Typography>
+                  <Typography variant="div"><strong>ENVOIE EMAIL: </strong>{vehicule?.isNotify ? 'OUI' : 'NON'}</Typography>
+                </div>
+                <div style={ficheItem}>
+                  <Typography variant="div" ><strong>EQUIPEMENT : Nombre ({vehicule?.equipement?.length})</strong></Typography>
                 </div>
                 <div style={ficheItem}>
                     <div className={` ${classes.tabledetail} ml-3`}>
@@ -146,7 +149,7 @@ const Verify = ({openModal,closeModal,data})=> {
                           </tr>
                         </thead>
                         <tbody>
-                        { livraison?.equipement?.map((equipement, index)=>{
+                        { vehicule?.equipement?.map((equipement, index)=>{
                           return <tr key={index}>
                                     <td className={` ${classes.tableContentThTd}`}>{equipement?.num_serie}</td>
                                     <td className={` ${classes.tableContentThTd}`}>{equipement?.marque}</td>
@@ -162,7 +165,7 @@ const Verify = ({openModal,closeModal,data})=> {
                 </div>
                 <div style={ficheItem}>
                   <Typography variant="div" ><strong>OBSERVATION : </strong></Typography>
-                  <Typography variant="h6">{livraison?.observation}</Typography>
+                  <Typography variant="h6">{vehicule?.observation}</Typography>
                 </div>
               </div>
             </ThemeProvider>

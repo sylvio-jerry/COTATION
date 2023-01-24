@@ -33,6 +33,7 @@ const AddVehicule = () => {
       PoidsColis: '',
       Amorcage: '',
       dateArriveeAuPort: null,
+      isDisponible: true
     }
   )
 
@@ -78,9 +79,10 @@ const AddVehicule = () => {
             newVehicule.Amorcage = +newVehicule.Amorcage.trim()
             newVehicule.DateArriveeAuPort = moment(newVehicule.dateArriveeAuPort,'DD/MM/YYYY').format('YYYY-MM-DD')
             newVehicule.isNotify = (isNotify==="true" || isNotify===true) ? true : false
+            newVehicule.isDisponible = (newVehicule.isDisponible==="true" || newVehicule.isDisponible===true) ? true : false
 
-            console.warn("++++++++++++++++++++++++",newVehicule);
-            console.warn("++++++++++++++++++++++++",typeof newVehicule.isNotify);
+            console.log("++++++++++++++++++++++++",newVehicule);
+            console.log("++++++++++++++++++++++++",typeof newVehicule.isDisponible);
 
             const data_ = await axios.post(`${API_URL}/api/car/create`,newVehicule)
             let {status,message} = data_.data
@@ -88,6 +90,7 @@ const AddVehicule = () => {
               AlertToast("success",message)
               setVehicule(defaultVehicule())
             }
+
            } catch ({response}) {
             console.log("error while postCarsRequest:", response);
             let {status,message} = response?.data
@@ -126,9 +129,12 @@ const AddVehicule = () => {
     setVehicule({...vehicule,dateArriveeAuPort:date});
   };
 
-  const handleChangeNotify= (event) => {
-    console.log('changed notify',event);
+  const handleChangeNotify= () => {
      setIsNotify(!isNotify);
+   };
+
+  const handleChangeIsDisponible= () => {
+    setVehicule({...vehicule,isDisponible:!vehicule.isDisponible});
    };
 
   //handle error handler
@@ -253,7 +259,7 @@ const AddVehicule = () => {
 
   return (
     <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl" style={addContainer}>
-      {showVerify && <Verify openModal={showVerify} closeModal={setShowVerify} data={vehicule} />}
+      {showVerify && <Verify openModal={showVerify} closeModal={setShowVerify} data={{vehicule,isNotify}} />}
       <div style={headerLabelContainer}>
         <HeaderLabel title="NOUVEAU VEHICULE"/>
       </div>
@@ -280,7 +286,7 @@ const AddVehicule = () => {
             <Box
               component="form"
               sx={{
-                '& > :not(style)': { m: 2, minWidth: "35ch" ,marginBottom:4 },
+                '& > :not(style)': { m: 2, minWidth: "35ch" ,marginBottom:2 },
               }}
               noValidate
             >
@@ -289,7 +295,7 @@ const AddVehicule = () => {
                 helperText={error.Marque ? (error.Marque) : ''}
                 onBlur={verifyMarque}
                 onFocus={resetError}
-                variant="filled" required={true} name="Marque" value={vehicule.Marque} onChange={handleChange} placeholder="ex : N° Marque" type="name" label="N° Marque"
+                variant="filled" required={true} name="Marque" value={vehicule.Marque} onChange={handleChange} placeholder="ex : Marque" type="name" label="Marque"
               />
             </Box>
           </div>
@@ -297,7 +303,7 @@ const AddVehicule = () => {
             <Box
               component="form"
               sx={{
-                '& > :not(style)': { m: 2, minWidth: "35ch" ,marginBottom:4 },
+                '& > :not(style)': { m: 2, minWidth: "35ch" ,marginBottom:2 },
               }}
               noValidate
             >
@@ -314,7 +320,7 @@ const AddVehicule = () => {
           <div style={{}}>
             <Box component="form"
                 sx={{
-                  '& > :not(style)': { m: 2, minWidth: "35ch" , marginTop:3},
+                  '& > :not(style)': { m: 2, minWidth: "35ch" , marginTop:2},
                 }}
                 noValidate
                 autoComplete="off">
@@ -340,14 +346,12 @@ const AddVehicule = () => {
                 </TextField>        
               </FormControl>
             </Box>
-          </div>            
-        </div>
-        <div style={formContainerItem}>
+          </div>
           <div>
             <Box
               component="form"
               sx={{
-                '& > :not(style)': { m: 2, minWidth: "35ch" },
+                '& > :not(style)': { m: 2, minWidth: "35ch" , marginTop:2},
               }}
               noValidate
             >
@@ -358,12 +362,14 @@ const AddVehicule = () => {
                 onFocus={resetError}
                 variant="filled" required={true} name="PoidsVehicule" value={vehicule.PoidsVehicule} onChange={handleChange} placeholder="ex :  Poids du Vehicule" type="number" label="Poids du Véhicule" />
             </Box>
-          </div>
+          </div>       
+        </div>
+        <div style={formContainerItem}>
           <div>
            <Box
               component="form"
               sx={{
-                '& > :not(style)': { m: 2, minWidth: "35ch" ,marginBottom:5.5 },
+                '& > :not(style)': { m: 2, minWidth: "35ch" ,marginBottom:3.5 },
               }}
               noValidate
             >
@@ -376,7 +382,7 @@ const AddVehicule = () => {
             </Box>
           </div>
           <div>
-            <Box style={{minWidth: "35ch", marginBottom:4}}>
+            <Box style={{minWidth: "35ch", marginBottom:2}}>
               <FormControl style={{minWidth: "100%"}}>
                 <DatePicker label="DATE ARRIVEE AU PORT" required={true} defaultValue={vehicule.dateArriveeAuPort} getDate={handleChangeDateArrivee}/>
               </FormControl>
@@ -386,7 +392,7 @@ const AddVehicule = () => {
            <Box
               component="form"
               sx={{
-                '& > :not(style)': { m: 2, minWidth: "35ch", marginTop:6.5},
+                '& > :not(style)': { m: 2, minWidth: "35ch", marginTop:3.5},
               }}
               noValidate
             >
@@ -399,10 +405,34 @@ const AddVehicule = () => {
                 />
               </Box>
           </div>
+          {/* {JSON.stringify(vehicule.isDisponible)}
+          {JSON.stringify(typeof vehicule.isDisponible)} */}
           <div>
             <Box component="form"
                   sx={{
-                    '& > :not(style)': { m: 2, minWidth: "35ch" , marginTop:3},
+                    '& > :not(style)': { m: 2, minWidth: "35ch" , marginTop:2},
+                  }}
+                  noValidate
+                  autoComplete="off">
+              <FormControl>
+                <FormLabel id="demo-row-radio-buttons-group-label">DISPONIBLE:</FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  value={vehicule.isDisponible}
+                  onChange={handleChangeIsDisponible}
+                >
+                  <FormControlLabel value={true} control={<Radio />} label="Oui" />
+                  <FormControlLabel value={false} control={<Radio />} label="Non" />
+                </RadioGroup>
+              </FormControl>
+            </Box>
+          </div>
+          <div>
+            <Box component="form"
+                  sx={{
+                    '& > :not(style)': { m: 2, minWidth: "35ch"},
                   }}
                   noValidate
                   autoComplete="off">

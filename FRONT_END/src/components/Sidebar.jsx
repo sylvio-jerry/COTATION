@@ -5,10 +5,10 @@ import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import { links } from '../routes/links';
 import { useStateContext } from '../contexts/ContextProvider';
-import logo_birger from '../assets/images/logo_birger.png'
+import logo_smmc from '../assets/images/smmc.png'
 
 const Sidebar = () => {
-  const { currentColor, activeMenu, setActiveMenu, screenSize } = useStateContext();
+  const { currentColor, activeMenu, setActiveMenu, screenSize, currentUser } = useStateContext();
 
   const handleCloseSideBar = () => {
     if (activeMenu !== undefined && screenSize <= 900) {
@@ -25,7 +25,7 @@ const Sidebar = () => {
         <>
           <div className="flex justify-between items-center">
             <Link to="/" onClick={handleCloseSideBar} className="items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900">
-              <img src={logo_birger} alt='BIRGER' width={150} height={50} />
+              <img src={logo_smmc} alt='BIRGER' width={250} height={250} />
             </Link>
             <TooltipComponent content="Menu" position="BottomCenter">
               <button
@@ -44,7 +44,24 @@ const Sidebar = () => {
                 <p className="text-gray-400 dark:text-gray-400 m-3 mt-4 uppercase">
                   {item.title}
                 </p>
-                {item.links.map((link) => (
+
+                {currentUser.is_admin && item.links.map((link) => (
+                  
+                  <NavLink
+                    to={`/${link.path}`}
+                    key={link.path}
+                    onClick={handleCloseSideBar}
+                    style={({ isActive }) => ({
+                      backgroundColor: isActive ? currentColor : '',
+                    })}
+                    className={({ isActive }) => (isActive ? activeLink : normalLink)}
+                  >
+                    {link.icon}
+                    <span className="capitalize ">{link.name}</span>
+                  </NavLink>
+                ))}
+                {!currentUser.is_admin && item.links.filter(l=>l.path.toLowerCase()!='utilisateur').map((link) => (
+                  
                   <NavLink
                     to={`/${link.path}`}
                     key={link.path}

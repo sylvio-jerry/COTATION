@@ -382,7 +382,7 @@ const DetailVehicule = () => {
             </tr>
             <tr>
               <td className={` ${classes.tableContentThTd}`}>NET A PAYER</td>
-              <td className={` ${classes.tableContentThTd}`}>{cotation?.NetApayer1?.toFixed(2)}</td>
+              <td className={` ${classes.tableContentThTd}`}><strong>{cotation?.NetApayer1?.toFixed(2)} €</strong></td>
             </tr>
             </table>
             <br />
@@ -463,7 +463,7 @@ const DetailVehicule = () => {
               </tr>
               <tr>
                 <td className={` ${classes.tableContentThTd}`}>NET A PAYER</td>
-                <td className={` ${classes.tableContentThTd}`}>{cotation?.NetApayer2?.toFixed(2)}</td>
+                <td className={` ${classes.tableContentThTd}`}><strong>{cotation?.NetApayer2?.toFixed(2)} €</strong></td>
               </tr>
             </table>
             <br />
@@ -479,8 +479,8 @@ const DetailVehicule = () => {
                 <td className={` ${classes.tableContentThTd}`}>{cotation?.Montant_TVA?.toFixed(2)}</td>
               </tr>
               <tr>
-                <td className={` ${classes.tableContentThTd}`}>NET A PAYER</td>
-                <td className={` ${classes.tableContentThTd}`}>{cotation?.NetApayer?.toFixed(2)}</td>
+                <td className={` ${classes.tableContentThTd} bg-green-600`}><strong>NET A PAYER</strong></td>
+                <td className={` ${classes.tableContentThTd} bg-green-600`}>{cotation?.NetApayer?.toFixed(2)} €</td>
               </tr>
             </table>
             <br />

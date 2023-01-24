@@ -17,6 +17,7 @@ model cars {
   PoidsColis        Decimal           @db.Decimal(10, 2)
   Amorcage          Decimal           @db.Decimal(10, 2)
   DateArriveeAuPort DateTime          @db.Date
+  isDisponible      Boolean           @default(true)
 }
 
 model client {

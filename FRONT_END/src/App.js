@@ -6,11 +6,6 @@ import { Navbar, Sidebar } from './components';
 import { 
   Cotation,
   ListEquipement,AddEquipement,EditEquipement,DetailEquipement,
-  ListMaintenance,
-  AddMaintenance,
-  EditMaintenance,
-  DetailMaintenance,
-  RenewMaintenance,
   ListMaintenanceGab,
   AddMaintenanceGab,
   EditMaintenanceGab,
@@ -30,7 +25,7 @@ import {
   EditVehicule,
   ListUtilisateur,
   Login,
-  Home,Histogramme } from './pages';
+  Home,Pie } from './pages';
 import './App.css';
 import { useStateContext } from './contexts/ContextProvider';
 
@@ -70,7 +65,7 @@ const App = () => {
                 : 'bg-main-bg dark:bg-main-dark-bg  w-full min-h-screen flex-2 '
             }
           >
-            <div className='fixed  bg-[#03C9D7] dark:bg-main-dark-bg navbar w-full'>
+            <div className='fixed  bg-[#23AA66] dark:bg-main-dark-bg navbar w-full'>
               <Navbar />
             </div>
             <div>
@@ -106,7 +101,8 @@ const App = () => {
                 <Route path="/utilisateur" element={<ListUtilisateur />} />
 
                 {/* Histogramme  */}
-                <Route path="/histogramme" element={<Histogramme />} />
+                <Route path="/circulaire" element={<Pie />} />
+                <Route path="/baton" element={<Pie />} />
 
                 {/* AUTHENTIFICATION  */}
                 <Route path="/login" element={<Login />} />

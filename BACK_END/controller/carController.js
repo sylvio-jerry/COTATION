@@ -1,10 +1,9 @@
 const { PrismaClient, prisma } = require("@prisma/client");
-const { utilisateur } = new PrismaClient();
+const { utilisateur, cars } = new PrismaClient();
 const {send_mail} = require("../tools/send_mail");
 var moment = require('moment');
 moment.locale('fr'); // 'fr'
 
-const { cars } = new PrismaClient();
 const { sendError, sendResponse } = require('./baseController')
 
 
@@ -13,21 +12,19 @@ exports.createVoiture = async (req, res, next) => {
   // Perform seeding operations here
   //Véhicule
   //Destructing
-  let { Matricule, Marque , Version , EtatVehicule, PoidsVehicule,PoidsColis,Amorcage,DateArriveeAuPort, isNotify} = req.body
-  console.log('isNotify',isNotify);
-  console.log('typeof isNotify',typeof isNotify);
+  let { Matricule, Marque , Version , EtatVehicule, PoidsVehicule,PoidsColis,Amorcage,DateArriveeAuPort, isNotify, isDisponible} = req.body
   DateArriveeAuPort = new Date(DateArriveeAuPort)
   try {
     const car = await cars.create({
       data: {
-        Matricule,Marque,Version,EtatVehicule,PoidsVehicule,PoidsColis,Amorcage,DateArriveeAuPort
+        Matricule,Marque,Version,EtatVehicule,PoidsVehicule,PoidsColis,Amorcage,DateArriveeAuPort,isDisponible
       },
     });
     console.log(car);
     
     //sendMail
     if(car){
-      if(isNotify){
+      if(isNotify && isDisponible){
         const users = await user_to_notify()
         send_mail(
           users,
@@ -108,7 +105,7 @@ exports.updateVoiture = async (req, res, next) => {
   // Perform seeding operations here
   //Véhicule
   //Destructing
-  let { Matricule, Marque , Version , EtatVehicule, PoidsVehicule,PoidsColis,Amorcage,DateArriveeAuPort} = req.body
+  let { Matricule, Marque , Version , EtatVehicule, PoidsVehicule,PoidsColis,Amorcage,DateArriveeAuPort,isDisponible} = req.body
   DateArriveeAuPort = new Date(DateArriveeAuPort)
   try {
     const car = await cars.update({
@@ -116,7 +113,7 @@ exports.updateVoiture = async (req, res, next) => {
         IdVehicule : +req.params.id
       },
       data: {
-        Matricule,Marque,Version,EtatVehicule,PoidsVehicule,PoidsColis,Amorcage,DateArriveeAuPort
+        Matricule,Marque,Version,EtatVehicule,PoidsVehicule,PoidsColis,Amorcage,DateArriveeAuPort,isDisponible
       },
     });
     console.log(car);
@@ -163,5 +160,29 @@ const user_to_notify = async (req, res, next)=>{
        return users
    } catch (error) {
        console.log(error);
+   }
+}
+
+const get_cars_disponible = async ()=>{
+   try {
+
+       const statut = await cars.count({
+           where:{isDisponible: true}
+       })
+
+   } catch (error) {
+       console.log(error);
+    return carsStatut
+   }
+}
+const get_cars_non_disponible = async ()=>{
+   try {
+
+       const statut = await cars.count({
+           where:{isDisponible: false}
+       })
+
+   } catch (error) {
+    console.log(error);
    }
 }
