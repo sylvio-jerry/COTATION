@@ -20,8 +20,8 @@ module.exports={
         let mailOptions = {
             from: process.env.EMAIL,
             to: users,
-            subject: 'Blanche Birger Madagascar',
-            text: 'CONTRAT DE MAINTENANCE && CONTRAT DE GARANTIE ',
+            subject: 'SMMC PORT TOAMASINA | COTATION DE MANUTENTION DE VEHICULE',
+            text: 'SMMC PORT TOAMASINA | COTATION DE MANUTENTION DE VEHICULE ',
             attachments : {   // filename and content type is derived from path
                 path: pdf_path
             },

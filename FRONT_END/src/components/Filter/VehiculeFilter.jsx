@@ -25,9 +25,9 @@ const VehiculeFilter = ({filterOption,filterData}) => {
     { id:5, etat:"REMORQUE"}
   ]
 
-  // useEffect(()=>{
-  //   filterOption(filter)
-  // },[filter])
+  useEffect(()=>{
+    filterOption(filter)
+  },[filter])
 
   const handleChangeDateDebut = (date) => {
     setFilter({...filter,date_debut_arrivee:date});

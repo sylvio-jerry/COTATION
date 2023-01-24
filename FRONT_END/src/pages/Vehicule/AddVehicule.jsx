@@ -457,9 +457,9 @@ const AddVehicule = () => {
         <div style={actionItem}>
           <ButtonComponent color='error' function={exit} name_of_btn="RETOUR" icon={<BackspaceIcon />} />
         </div>
-        <div style={actionItem}>
+        {/* <div style={actionItem}>
           <ButtonComponent color='vertBlue' textColor="white" function={verify} name_of_btn="VOIR" icon={<VisibilityIcon />} />
-        </div>
+        </div> */}
         <div style={actionItem}>
           <ButtonComponent color='root' function={add} name_of_btn="ENREGISTRER" icon={<SaveIcon />} />
         </div>

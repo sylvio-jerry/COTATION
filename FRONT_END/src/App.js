@@ -25,7 +25,7 @@ import {
   EditVehicule,
   ListUtilisateur,
   Login,
-  Home,Pie } from './pages';
+  Home,Pie,BarChart,LineChart } from './pages';
 import './App.css';
 import { useStateContext } from './contexts/ContextProvider';
 
@@ -102,7 +102,8 @@ const App = () => {
 
                 {/* Histogramme  */}
                 <Route path="/circulaire" element={<Pie />} />
-                <Route path="/baton" element={<Pie />} />
+                <Route path="/baton" element={<BarChart />} />
+                <Route path="/linechart" element={<LineChart />} />
 
                 {/* AUTHENTIFICATION  */}
                 <Route path="/login" element={<Login />} />

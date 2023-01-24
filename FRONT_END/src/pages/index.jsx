@@ -1,5 +1,7 @@
 export { default as Home } from './Home';
 export { default as Pie } from './Histogramme/Pie';
+export { default as BarChart } from './Histogramme/BarChart';
+export { default as LineChart } from './Histogramme/LineChart';
 
 //client
 export { default as Cotation } from './Cotation/Cotation';

@@ -11,6 +11,10 @@ import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import ControlCameraOutlinedIcon from '@mui/icons-material/ControlCameraOutlined';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
+import DirectionsCarFilledOutlinedIcon from '@mui/icons-material/DirectionsCarFilledOutlined';
+import DonutLargeOutlinedIcon from '@mui/icons-material/DonutLargeOutlined';
+import StackedLineChartOutlinedIcon from '@mui/icons-material/StackedLineChartOutlined';
 
 //accueil , vehicule /
 export const links = [
@@ -29,12 +33,12 @@ export const links = [
       links: [
         {
           name: 'vehicule',
-          icon: <HandshakeOutlinedIcon />,
+          icon: <DirectionsCarFilledOutlinedIcon />,
           path: 'vehicule'
         },
         {
           name: 'estimation du prix',
-          icon: <DocumentScannerIcon />,
+          icon: <LocalOfferOutlinedIcon />,
           path: 'tarif_de_manutention'
         },
         {
@@ -45,15 +49,20 @@ export const links = [
       ],
     },
     {
-      title: 'HISTOGRAMME',
+      title: 'DIAGRAMMES',
       links: [
         {
           name: 'circulaire',
-          icon: <InsertChartOutlinedIcon />,
+          icon: <DonutLargeOutlinedIcon />,
           path: 'circulaire'
         },
         {
-          name: 'baton',
+          name: 'schémas de ligne',
+          icon: <StackedLineChartOutlinedIcon />,
+          path: 'linechart'
+        },
+        {
+          name: 'en baton',
           icon: <InsertChartOutlinedIcon />,
           path: 'baton'
         }
